@@ -1,10 +1,10 @@
 {
   "name": "Muhammad Bintang Nugraha",
   "photoUrl": "favicon.svg",
-  "intro": "Full-stack architect engineering robust enterprise ecosystems. I specialize in scalable tracking infrastructures and cross-platform management platforms, prioritizing systemic resilience and flawless operational interoperability.",
-  "introHtml": "Full-stack architect engineering <span class='text-white font-bold'>robust enterprise ecosystems</span>. I specialize in scalable tracking infrastructures and cross-platform management platforms, prioritizing <span class='text-white font-bold'>systemic resilience</span> and flawless <span class='text-white font-bold'>operational interoperability</span>.",
-  "webpageTitle": "Muhammad Bintang Nugraha",
-  "description": "Full-stack architect engineering robust enterprise ecosystems. I specialize in scalable tracking infrastructures and cross-platform management platforms.",
+  "intro": "Full-Stack Developer building robust and scalable applications. I specialize in cross-platform management systems and reliable infrastructures, prioritizing clean code and seamless user experiences.",
+  "introHtml": "Full-Stack Developer building <span class='text-white font-bold'>robust and scalable applications</span>. I specialize in cross-platform management systems and reliable infrastructures, prioritizing <span class='text-white font-bold'>clean code</span> and <span class='text-white font-bold'>seamless user experiences</span>.",
+  "webpageTitle": "Muhammad Bintang Nugraha | Full-Stack Developer",
+  "description": "Portfolio of Muhammad Bintang Nugraha, a Full-Stack Developer specializing in robust applications, cross-platform management systems, and reliable backend infrastructures.",
   "resumeUrl": "/resume-bintang.pdf",
   "socials": [
     {
@@ -14,7 +14,7 @@
     },
     {
       "name": "LinkedIn",
-      "url": "https://www.linkedin.com/in/bintangnugraha",
+      "url": "https://linkedin.com/in/bintangnugraha",
       "icon": "mdi:linkedin"
     },
     {
@@ -23,7 +23,7 @@
       "icon": "mdi:email"
     },
     {
-      "name": "Whatsapp",
+      "name": "WhatsApp",
       "url": "https://wa.me/6285155344998",
       "icon": "mdi:whatsapp"
     }

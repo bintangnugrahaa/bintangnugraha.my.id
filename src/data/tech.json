@@ -8,11 +8,11 @@
       ]
     },
     {
-      "title": "Frontend",
+      "title": "Frontend Development",
       "skills": [
         { "name": "Astro", "level": 2, "icon": "skill-icons:astro" },
         { "name": "JavaScript", "level": 4, "icon": "skill-icons:javascript" },
-        { "name": "ReactJS", "level": 4, "icon": "skill-icons:react-dark" },
+        { "name": "React", "level": 4, "icon": "skill-icons:react-dark" },
         { "name": "Bootstrap", "level": 4, "icon": "skill-icons:bootstrap" },
         {
           "name": "Tailwind CSS",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "title": "Backend",
+      "title": "Backend Development",
       "skills": [
         { "name": "PHP", "level": 4, "icon": "skill-icons:php-dark" },
         { "name": "Laravel", "level": 4, "icon": "skill-icons:laravel-dark" },
@@ -30,10 +30,14 @@
       ]
     },
     {
-      "title": "Database",
+      "title": "Databases",
       "skills": [
         { "name": "MySQL", "level": 4, "icon": "skill-icons:mysql-dark" },
-        { "name": "PostgreSQL", "level": 2, "icon": "skill-icons:postgresql-dark" }
+        {
+          "name": "PostgreSQL",
+          "level": 2,
+          "icon": "skill-icons:postgresql-dark"
+        }
       ]
     }
   ]

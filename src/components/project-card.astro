@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
+
 const { project } = Astro.props;
 
 const isSlider = project.images.length > 1;
@@ -56,7 +57,7 @@ const isSlider = project.images.length > 1;
         href={project.link}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`View ${project.title} live`}
+        aria-label={`View ${project.title} live project`}
         class="text-white/40 hover:text-accent transition-colors"
       >
         <Icon name="mdi:open-in-new" class="w-6 h-6" />
@@ -89,21 +90,24 @@ const isSlider = project.images.length > 1;
 
       let currentIndex = 0;
       setInterval(() => {
-        // Hide current
+        // Hide the current image
         images[currentIndex].classList.remove("opacity-100", "z-0");
         images[currentIndex].classList.add("opacity-0", "z-[-1]");
 
-        // Move to next
+        // Move to the next image in the sequence
         currentIndex = (currentIndex + 1) % images.length;
 
-        // Show next
+        // Show the next image
         images[currentIndex].classList.remove("opacity-0", "z-[-1]");
         images[currentIndex].classList.add("opacity-100", "z-0");
       }, 3500);
     });
   }
 
+  // Initialize sliders on page load
   initSliders();
+
+  // Re-initialize sliders after Astro view transitions
   document.addEventListener("astro:after-swap", initSliders);
 </script>
 

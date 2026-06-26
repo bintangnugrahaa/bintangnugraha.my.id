@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+
 interface NavItem {
   label: string;
   href: string;
@@ -29,8 +30,8 @@ const navItems: NavItem[] = [
   },
   // {
   //   label: "Education",
-  //   href: "#contact",
-  //   icon: `mdi:message`,
+  //   href: "#education",
+  //   icon: `mdi:school`,
   // },
   {
     label: "Contact",
@@ -76,8 +77,9 @@ const navItems: NavItem[] = [
     </div>
   </nav>
 </div>
+
 <style>
-  /* Reveal whole section when website loads */
+  /* Reveal the entire section upon page load */
   .reveal-content {
     opacity: 0;
     transform: translateY(20px);
@@ -119,7 +121,7 @@ const navItems: NavItem[] = [
     opacity: 0;
   }
 
-  /* Base state for the link text */
+  /* Base state for the navigation links */
   nav a {
     transition:
       transform 0.3s ease,
@@ -134,19 +136,19 @@ const navItems: NavItem[] = [
     transform: scale(1.1);
   }
 
-  /* Glow effect */
+  /* Glow effect for active items */
   nav a.active span {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   }
 
-  /* Ensure the scale doesn't jitter the layout */
+  /* Ensure the scaling does not cause layout jitter */
   nav li {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  /* Icon style for mobile view */
+  /* Icon styling for mobile view */
   .nav-icon {
     transition:
       transform 0.3s ease,
@@ -179,32 +181,32 @@ const navItems: NavItem[] = [
       width: 100% !important;
     }
 
-    /* Hiding bottom bar while scroling on mobile */
+    /* Hide the bottom navigation bar while scrolling on mobile */
     #main-nav {
-      /* Force Hardware Acceleration (Fixes the white flash) */
+      /* Force Hardware Acceleration (Resolves visual flickering) */
       will-change: transform;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
 
-      /* Smooth transition */
+      /* Smooth transition for hiding/showing */
       transition:
         transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
         background-color 0.4s ease,
         backdrop-filter 0.4s ease;
 
-      /* Ensure no default background is fighting the blur */
+      /* Prevent background from interfering with the blur effect */
       background-clip: padding-box;
     }
 
     #main-nav.nav-hidden {
       transform: translateY(110%) !important;
 
-      /* Optional: Turn off blur when hidden to save GPU cycles */
+      /* Disable blur when hidden to optimize GPU performance */
       backdrop-filter: blur(0px);
     }
   }
 
-  /* Hover effect */
+  /* Hover effect for inactive links */
   nav a:not(.active):hover {
     color: var(--color-accent) !important;
   }
@@ -218,10 +220,16 @@ const navItems: NavItem[] = [
     transform: scale(0.95);
     color: var(--color-accent) !important;
   }
+
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: 70px;
+    }
+  }
 </style>
 
 <script>
-  //scroll morphing effect, changing width & border radius
+  // Morphing effect on scroll: smoothly transitions width and border-radius
   const nav = document.getElementById("main-nav");
   const maxScroll = 1000;
   let lastScrollY = window.scrollY;
@@ -274,7 +282,7 @@ const navItems: NavItem[] = [
     { passive: true },
   );
 
-  //smooth scrolling to a linked section
+  // Enable smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
@@ -289,7 +297,7 @@ const navItems: NavItem[] = [
     });
   });
 
-  //highlight section by observing visible one on the screen by 50%
+  // Highlight the active navigation link when its corresponding section is at least 50% visible
   document.addEventListener("DOMContentLoaded", () => {
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll("nav a[href^='#']");
@@ -315,15 +323,3 @@ const navItems: NavItem[] = [
     sections.forEach((section) => observer.observe(section));
   });
 </script>
-
-<style>
-  @media (max-width: 767px) {
-    body {
-      padding-bottom: 70px;
-    }
-  }
-
-  nav a.active {
-    color: white !important;
-  }
-</style>

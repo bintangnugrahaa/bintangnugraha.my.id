@@ -41,8 +41,8 @@ try {
           <span class="text-accent">/</span> Tech Stack
         </h2>
         <p class="text-gray font-body text-sm max-w-md">
-          Breakdown of my technical skills, categorized by domain and
-          proficiency
+          A breakdown of my technical skills, categorized by domain and
+          proficiency level.
         </p>
       </div>
 
@@ -85,7 +85,7 @@ try {
 
             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-5 sm:gap-8">
               {category.skills.map((skill) => (
-                /* 'skill-card' class to maintain reveal animation */
+                /* The 'skill-card' class is required to maintain the reveal animation */
                 <div class="skill-card opacity-0 group relative flex items-stretch min-h-14 rounded-xl bg-white/5 border border-white/10 hover:border-accent/40 hover:bg-white/8 transition-all duration-300">
                   <div class="shrink-0 w-12 flex items-center justify-center rounded-l-xl bg-white/5 transition-colors group-hover:bg-accent/15">
                     <Icon
@@ -123,13 +123,13 @@ try {
 </section>
 
 <style>
-  /* Initial state of the card */
+  /* Initial state of the skill card */
   .skill-card {
     transform: translateY(20px) scale(0.95);
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Revealed state */
+  /* Revealed state of the skill card */
   .skill-card.reveal {
     opacity: 1 !important;
     transform: translateY(0) scale(1);
@@ -144,31 +144,31 @@ try {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Add a slight delay based on the card's position to create a wave effect
+            // Apply a slight delay based on the card's position to create a staggering wave effect
             const index = Array.from(cards).indexOf(entry.target);
             setTimeout(
               () => {
                 entry.target.classList.add("reveal");
               },
               (index % 6) * 50,
-            ); // Delay resets every row for a clean staggered look
+            ); // The delay resets every row to maintain a clean staggered appearance
 
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.1, // Trigger when 10% of the card is visible
-        rootMargin: "0px 0px -50px 0px", // Trigger slightly before it hits the viewport
+        threshold: 0.1, // Trigger when 10% of the card is visible in the viewport
+        rootMargin: "0px 0px -50px 0px", // Trigger slightly before the card enters the viewport
       },
     );
 
     cards.forEach((card) => observer.observe(card));
   }
 
-  // Runs on initial load
+  // Initialize on page load
   revealSkills();
 
-  // Necessary for Astro View Transitions if you use them
+  // Required for Astro View Transitions, if applicable
   document.addEventListener("astro:after-swap", revealSkills);
 </script>

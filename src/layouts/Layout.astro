@@ -1,8 +1,8 @@
 ---
 import "../styles/global.css";
-// Supports weights 300-700
+// Supports font weights from 300 to 700
 import "@fontsource-variable/space-grotesk";
-// Supports weights 100-900
+// Supports font weights from 100 to 900
 import "@fontsource-variable/inter";
 
 interface Props {
@@ -22,20 +22,17 @@ const { title, description } = Astro.props;
     <meta name="author" content="Muhammad Bintang Nugraha" />
     <meta
       name="keywords"
-      content="Muhammad Bintang Nugraha, Portfolio, Full-stack Architect, Software Engineer, Web Development, Mobile Development, Flutter, Laravel"
+      content="Muhammad Bintang Nugraha, Portfolio, Full-Stack Architect, Software Engineer, Web Development, Mobile Development, Flutter, Laravel"
     />
 
-    <!-- Canonical URL -->
     <link rel="canonical" href={Astro.url.href} />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL("/favicon.svg", Astro.url)} />
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={Astro.url.href} />
     <meta property="twitter:title" content={title} />
@@ -45,23 +42,20 @@ const { title, description } = Astro.props;
       content={new URL("/favicon.svg", Astro.url)}
     />
 
-    <!-- Theme Color for PWA/Mobile -->
     <meta name="theme-color" content="#1d1a3c" />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.ico" />
 
     <title>{title}</title>
 
-    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Muhammad Bintang Nugraha",
         "url": "https://bintangnugraha.my.id",
-        "jobTitle": "Full-stack Architect",
+        "jobTitle": "Full-Stack Architect",
         "sameAs": [
           "https://github.com/bintangnugrahaa",
           "https://www.linkedin.com/in/bintangnugraha"
@@ -89,7 +83,7 @@ const { title, description } = Astro.props;
     <button
       id="to-top"
       class="fixed bottom-8 right-8 z-50 p-0 rounded-full bg-background border border-white/10 shadow-2xl transition-all duration-500 translate-y-20 opacity-0 group flex items-center justify-center cursor-pointer"
-      aria-label="Back to top"
+      aria-label="Scroll back to top"
     >
       <svg class="w-14 h-14 -rotate-90">
         <circle
@@ -152,7 +146,7 @@ const { title, description } = Astro.props;
         const color = "var(--color-darkgray)";
 
         const left = Math.random() * 100;
-        const duration = 6 + Math.random() * 6; // 6s to 12s
+        const duration = 6 + Math.random() * 6; // Duration between 6s and 12s
         const size = 10 + Math.random() * 10;
 
         span.innerText = char;
@@ -163,7 +157,7 @@ const { title, description } = Astro.props;
         span.style.animationDuration = `${duration}s`;
         span.style.willChange = "transform, opacity";
 
-        // Add a slight glow effect
+        // Apply a subtle glow effect
         span.style.textShadow = `0 0 5px ${color}`;
 
         container.appendChild(span);
@@ -174,10 +168,10 @@ const { title, description } = Astro.props;
       }
 
       if (window.innerWidth > 768) {
-        // Reduced frequency to improve performance (one letter every 400ms)
+        // Decrease frequency to enhance performance (one character every 400ms)
         setInterval(createLetter, 400);
       } else {
-        // Static scatter effect for mobile optimization
+        // Apply a static scatter effect for mobile optimization
         const mobileCount = 20;
         for (let i = 0; i < mobileCount; i++) {
           createStaticLetter();
@@ -192,13 +186,13 @@ const { title, description } = Astro.props;
         const color = "var(--color-darkgray)";
 
         const left = Math.random() * 100;
-        const top = Math.random() * 90; // Random vertical position
+        const top = Math.random() * 90; // Assign a random vertical position
         const size = 10 + Math.random() * 10;
 
         span.innerText = char;
-        span.className = "falling-letter"; // from global.css
+        span.className = "falling-letter"; // Inherited from global.css
 
-        // Override animation for mobile 'none'
+        // Disable animation on mobile devices
         span.style.animation = "none";
         span.style.left = `${left}vw`;
         span.style.top = `${top}vh`;
@@ -210,10 +204,10 @@ const { title, description } = Astro.props;
         container.appendChild(span);
       }
 
-      // ** SCROLL TO TOP ** //
+      // --- SCROLL TO TOP LOGIC --- //
       const toTopBtn = document.getElementById("to-top");
       const progressCircle = document.getElementById("progress-circle");
-      const circumference = 150.796; // 2 * pi * 24
+      const circumference = 150.796; // Circumference = 2 * Math.PI * radius (24)
       const arrowIcon = toTopBtn?.querySelector(".absolute");
 
       function handleScroll() {
@@ -221,13 +215,13 @@ const { title, description } = Astro.props;
           document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercentage = window.scrollY / scrollHeight;
 
-        // Update the Circle Progress
+        // Update the circular progress indicator
         const offset = circumference - scrollPercentage * circumference;
         if (progressCircle) {
           progressCircle.style.strokeDashoffset = offset.toString();
         }
 
-        // Visibility Logic (Appear at 50%)
+        // Visibility logic: Display the button after scrolling 50% of the page
         if (scrollPercentage > 0.5) {
           toTopBtn?.classList.remove("translate-y-20", "opacity-0");
           toTopBtn?.classList.add("translate-y-0", "opacity-100");
@@ -236,7 +230,7 @@ const { title, description } = Astro.props;
           toTopBtn?.classList.remove("translate-y-0", "opacity-100");
         }
 
-        // Bounce Logic at 98%
+        // Bounce animation logic: Trigger at 98% scroll depth
         if (scrollPercentage > 0.98) {
           arrowIcon?.classList.add("animate-bounce-twice");
         } else {
@@ -246,22 +240,18 @@ const { title, description } = Astro.props;
 
       window.addEventListener("scroll", handleScroll, { passive: true });
 
-      // toTopBtn?.addEventListener('click', () => {
-      //   window.scrollTo({ top: 0, behavior: 'smooth' });
-      // });
-
       toTopBtn?.addEventListener("click", () => {
         arrowIcon?.classList.add("launching");
 
         const startPosition = window.scrollY;
         const duration = 750;
         let startTime: number | null = null;
-        let requestID: number; // storing the ID here
+        let requestID: number; // Store the animation request ID
 
         const stopAnimation = () => {
           cancelAnimationFrame(requestID);
           arrowIcon?.classList.remove("launching");
-          // Remove listeners once stopped
+          // Remove event listeners once the animation concludes
           window.removeEventListener("wheel", stopAnimation);
           window.removeEventListener("touchmove", stopAnimation);
         };
@@ -290,7 +280,7 @@ const { title, description } = Astro.props;
           }
         }
 
-        // Listen for any user interruption
+        // Listen for user scroll interruptions to halt the animation
         window.addEventListener("wheel", stopAnimation, { once: true });
         window.addEventListener("touchmove", stopAnimation, { once: true });
 

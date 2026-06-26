@@ -13,10 +13,10 @@ interface ProfileData {
   description: string;
 }
 
-const isApiLive = import.meta.env.PROD; // Auto true in production
+const isApiLive = import.meta.env.PROD; // Automatically set to true in production
 const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
 
-let data: ProfileData; // data as ProfileData
+let data: ProfileData;
 
 if (isApiLive && BASE_URL) {
   try {
@@ -24,7 +24,7 @@ if (isApiLive && BASE_URL) {
     if (!response.ok) throw new Error("Network response was not ok");
     data = await response.json();
   } catch (error) {
-    console.error("API Fetch failed, falling back to mock data", error);
+    console.error("API fetch failed, falling back to local mock data:", error);
     data = localData as ProfileData;
   }
 } else {

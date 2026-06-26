@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 import localData from "../data/home.json";
 
-//Data Definitions
+// Data Definitions
 interface Social {
   name: string;
   url: string;
@@ -29,7 +29,7 @@ if (isApiLive && BASE_URL) {
     if (!response.ok) throw new Error("Network response was not ok");
     data = await response.json();
   } catch (error) {
-    console.error("API Fetch failed, falling back to mock data", error);
+    console.error("API fetch failed, falling back to mock data", error);
     data = localData as ProfileData;
   }
 } else {
@@ -65,7 +65,7 @@ const { name, photoUrl, intro, introHtml, resumeUrl, socials } = data;
   </div>
 
   <div class="reveal-content" style="animation-delay: 200ms;">
-    <p class="font-body font-light text-gray leading-relaxed">Hello, I'm</p>
+    <p class="font-body font-light text-gray leading-relaxed">Hello, I am</p>
   </div>
 
   <div
@@ -90,10 +90,8 @@ const { name, photoUrl, intro, introHtml, resumeUrl, socials } = data;
       target="_blank"
       rel="noopener noreferrer"
       class="group relative inline-flex items-center justify-center px-10 py-2 bg-white/5 border border-white/10 rounded-full text-white font-body transition-all duration-300
-             <!-- /* Mobile: Always active */ -->
              border-accent/50 bg-accent/10 shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]
              
-             <!-- /* Desktop: Reset and hover */ -->
              md:border-white/10 md:bg-white/5 md:shadow-none md:hover:border-accent/50 md:hover:bg-accent/10 md:hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]
              hover:scale-105"
     >
@@ -106,12 +104,12 @@ const { name, photoUrl, intro, introHtml, resumeUrl, socials } = data;
 
         <span
           class="text-[10px] text-gray-400 font-light whitespace-nowrap transition-all duration-300
-                     /* Mobile: Always visible */
-                     opacity-100 translate-y-0
-                     /* Desktop: Hidden until hover */
-                     md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0"
+                 /* Mobile: Always visible */
+                 opacity-100 translate-y-0
+                 /* Desktop: Hidden until hover */
+                 md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0"
         >
-          Downloads PDF file
+          Download PDF
         </span>
       </div>
 
@@ -160,7 +158,7 @@ const { name, photoUrl, intro, introHtml, resumeUrl, socials } = data;
     }
   }
 
-  /* profile photo floating animation */
+  /* Profile photo floating animation */
 
   /* When combined, the animation rule automatically merges these transforms */
   .avatar-container {
@@ -201,7 +199,7 @@ const { name, photoUrl, intro, introHtml, resumeUrl, socials } = data;
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Add a slight delay based on the card's position to create a wave effect
+            // Add a slight delay based on the card's position to create a staggering wave effect
             const index = Array.from(cards).indexOf(entry.target);
             setTimeout(
               () => {
@@ -223,9 +221,9 @@ const { name, photoUrl, intro, introHtml, resumeUrl, socials } = data;
     cards.forEach((card) => observer.observe(card));
   }
 
-  // Runs on initial load
+  // Initialize on page load
   revealSkills();
 
-  // Necessary for Astro View Transitions if you use them
+  // Required for Astro View Transitions, if applicable
   document.addEventListener("astro:after-swap", revealSkills);
 </script>

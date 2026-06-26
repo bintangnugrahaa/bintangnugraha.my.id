@@ -1,92 +1,92 @@
 [
   {
     "title": "TapTrack",
-    "description": "An advanced QR/RFID attendance ecosystem featuring real-time automated WhatsApp alerts and a sophisticated administrative interface for streamlined student tracking.",
+    "description": "A web-based student attendance system utilizing QR and RFID technology alongside real-time WhatsApp notifications. Implemented as a thesis project at SMK TI Dwiguna Depok.",
     "images": [
-      "attendance-1.webp",
-      "attendance-2.webp",
-      "attendance-3.webp",
-      "attendance-4.webp",
-      "attendance-5.webp"
+      "taptrack-1.webp",
+      "taptrack-2.webp",
+      "taptrack-3.webp",
+      "taptrack-4.webp",
+      "taptrack-5.webp"
     ],
-    "tech": ["PHP", "Node.js", "MySQL", "Bootstrap"],
+    "tech": ["PHP", "jQuery", "MySQL", "Bootstrap"],
     "platforms": ["web"],
-    "link": "https://absensi.bintangnugraha.my.id",
+    "link": "https://presensi.bintangnugraha.my.id",
     "category": "Published"
   },
   {
-    "title": "PresenBot",
-    "description": "A sophisticated attendance monitoring ecosystem utilizing WhatsApp and Telegram APIs for synchronous student tracking and comprehensive reporting.",
+    "title": "EduPay",
+    "description": "A web-based school tuition (SPP) management system featuring comprehensive fee tracking, automated financial reporting, and seamless WhatsApp integration for instant receipts and payment reminders.",
     "images": [
-      "attendancebot-1.webp",
-      "attendancebot-2.webp",
-      "attendancebot-3.webp",
-      "attendancebot-4.webp",
-      "attendancebot-5.webp"
+      "spp-1.webp",
+      "spp-2.webp",
+      "spp-3.webp",
+      "spp-4.webp",
+      "spp-5.webp"
     ],
-    "tech": ["PHP", "MySQL", "Bootstrap", "jQuery"],
+    "tech": ["PHP", "jQuery", "MySQL", "Bootstrap"],
     "platforms": ["web"],
-    "link": "https://absensibot.bintangnugraha.my.id",
+    "link": "https://spp.bintangnugraha.my.id",
     "category": "Published"
   },
   {
-    "title": "SariWangi",
-    "description": "A bespoke POS ecosystem architected to streamline laundry operations through automated transaction tracking and comprehensive fiscal auditing.",
+    "title": "SmartCBT",
+    "description": "A secure Computer-Based Testing (CBT) platform designed for educational institutions. It features advanced question banks, automated grading, precise timer controls, and in-depth performance analytics.",
     "images": [
-      "laundry-1.webp",
-      "laundry-2.webp",
-      "laundry-3.webp",
-      "laundry-4.webp",
-      "laundry-5.webp"
+      "cbt-1.webp",
+      "cbt-2.webp",
+      "cbt-3.webp",
+      "cbt-4.webp",
+      "cbt-5.webp"
     ],
-    "tech": ["PHP", "MySQL", "Bootstrap", "jQuery"],
+    "tech": ["PHP", "jQuery", "MySQL", "Bootstrap"],
     "platforms": ["web"],
-    "link": "https://laundry.bintangnugraha.my.id",
+    "link": "https://cbt.bintangnugraha.my.id",
     "category": "Published"
   },
   {
-    "title": "Collabra",
-    "description": "A sophisticated, Laravel-driven ecosystem orchestrating seamless ticket tracking, epic workflows, and secure client collaboration via a high-performance Filament interface.",
+    "title": "InternTrack",
+    "description": "A web-based internship (PKL) monitoring platform bridging schools and industry partners. Key features include digital daily logbooks, location-based attendance tracking, streamlined supervisor approvals, and automated reporting.",
     "images": [
-      "collabra-1.webp",
-      "collabra-2.webp",
-      "collabra-3.webp",
-      "collabra-4.webp",
-      "collabra-5.webp"
+      "pkl-1.webp",
+      "pkl-2.webp",
+      "pkl-3.webp",
+      "pkl-4.webp",
+      "pkl-5.webp"
     ],
-    "tech": ["Laravel", "Filament", "TailwindCSS"],
+    "tech": ["PHP", "jQuery", "MySQL", "Bootstrap"],
     "platforms": ["web"],
-    "link": "https://pm.bintangnugraha.my.id",
-    "category": "Development"
-  },
-  {
-    "title": "PharmPOS",
-    "description": "An avant-garde, multi-platform pharmacy management ecosystem that synergizes a robust Laravel-Filament administrative backend with a high-performance Flutter POS interface, streamlining inventory, sales, and fiscal operations with integrated payment gateways and thermal printing capabilities.",
-    "images": [
-      "pharmpos-1.webp",
-      "pharmpos-2.webp",
-      "pharmpos-3.webp",
-      "pharmpos-4.webp",
-      "pharmpos-5.webp"
-    ],
-    "tech": ["Laravel", "Flutter", "TailwindCSS"],
-    "platforms": ["android", "web"],
-    "link": "https://apotek.bintangnugraha.my.id",
+    "link": "https://pkl.bintangnugraha.my.id",
     "category": "Published"
   },
   {
-    "title": "GlowUp",
-    "description": "A premier, full-stack management ecosystem for the aesthetics industry, synergizing a robust Laravel administrative core with a high-fidelity Flutter interface to streamline clinical operations and financial performance.",
+    "title": "EduSys",
+    "description": "An integrated educational Enterprise Resource Planning (ERP) system centralizing academic, administrative, and financial operations. It includes dedicated modules for student data management, HR, curriculum planning, and asset tracking.",
     "images": [
-      "glowup-1.webp",
-      "glowup-2.webp",
-      "glowup-3.webp",
-      "glowup-4.webp",
-      "glowup-5.webp"
+      "erp-1.webp",
+      "erp-2.webp",
+      "erp-3.webp",
+      "erp-4.webp",
+      "erp-5.webp"
     ],
-    "tech": ["Laravel", "Flutter", "TailwindCSS"],
-    "platforms": ["android", "web"],
-    "link": "https://klinik.bintangnugraha.my.id",
+    "tech": ["PHP", "jQuery", "MySQL", "Bootstrap"],
+    "platforms": ["web"],
+    "link": "https://erp.bintangnugraha.my.id",
+    "category": "Published"
+  },
+  {
+    "title": "OmniPOS",
+    "description": "A versatile Point of Sale (POS) system offering specialized modules for laundries, pharmacies, and clinics. Features include real-time inventory tracking, secure transaction processing, and comprehensive sales reporting.",
+    "images": [
+      "pos-1.webp",
+      "pos-2.webp",
+      "pos-3.webp",
+      "pos-4.webp",
+      "pos-5.webp"
+    ],
+    "tech": ["PHP", "Laravel", "MySQL", "Bootstrap"],
+    "platforms": ["web"],
+    "link": "https://pos.bintangnugraha.my.id",
     "category": "Published"
   }
 ]
