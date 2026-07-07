@@ -1,291 +1,39 @@
 ---
-import "../styles/global.css";
-// Supports font weights from 300 to 700
-import "@fontsource-variable/space-grotesk";
-// Supports font weights from 100 to 900
-import "@fontsource-variable/inter";
-
-interface Props {
+interface LayoutProps {
+  lang: string;
   title: string;
   description: string;
+  favicon: string;
+  topColor: string;
+  bottomColor: string;
 }
 
-const { title, description } = Astro.props;
+import "@/styles/global.css";
+import { html } from "@/data.json";
+
+const { lang, title, description, favicon, topColor, bottomColor } =
+  html satisfies LayoutProps;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="author" content="Muhammad Bintang Nugraha" />
-    <meta
-      name="keywords"
-      content="Muhammad Bintang Nugraha, Portfolio, Full-Stack Architect, Software Engineer, Web Development, Mobile Development, Flutter, Laravel"
-    />
-
-    <link rel="canonical" href={Astro.url.href} />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.href} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL("/favicon.svg", Astro.url)} />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url.href} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta
-      property="twitter:image"
-      content={new URL("/favicon.svg", Astro.url)}
-    />
-
-    <meta name="theme-color" content="#1d1a3c" />
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" href="/favicon.ico" />
-
+    <meta name="theme-color" content={topColor} />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
     <title>{title}</title>
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Muhammad Bintang Nugraha",
-        "url": "https://bintangnugraha.my.id",
-        "jobTitle": "Full-Stack Architect",
-        "sameAs": [
-          "https://github.com/bintangnugrahaa",
-          "https://www.linkedin.com/in/bintangnugraha"
-        ],
-        "description": "Full-stack architect engineering robust enterprise ecosystems."
-      }
-    </script>
   </head>
   <body
-    class="bg-background relative min-h-screen overflow-x-hidden antialiased"
+    class="w-5/6 h-full m-0 mx-auto min-h-dvh layout-custom md:w-3/5 2xl:w-1/2"
   >
-    <div
-      id="matrix-container"
-      class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
-      style="mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);"
-    >
-    </div>
-
-    <main
-      class="px-2 sm:px-12 md:px-14 lg:px-28 max-w-360 mx-auto relative z-0"
-    >
-      <slot />
-    </main>
-
-    <button
-      id="to-top"
-      class="fixed bottom-8 right-8 z-50 p-0 rounded-full bg-background border border-white/10 shadow-2xl transition-all duration-500 translate-y-20 opacity-0 group flex items-center justify-center cursor-pointer"
-      aria-label="Scroll back to top"
-    >
-      <svg class="w-14 h-14 -rotate-90">
-        <circle
-          cx="28"
-          cy="28"
-          r="24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="3"
-          class="text-white/5"></circle>
-        <circle
-          id="progress-circle"
-          cx="28"
-          cy="28"
-          r="24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="3"
-          stroke-dasharray="150.7"
-          stroke-dashoffset="150.7"
-          stroke-linecap="round"
-          class="text-accent transition-all duration-100"></circle>
-      </svg>
-
-      <div
-        class="absolute text-accent group-hover:scale-110 transition-transform"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="currentColor"
-        >
-          <path
-            d="M13.0001 7.82843V20H11.0001V7.82843L5.63614 13.1924L4.22192 11.7782L12.0001 4L19.7783 11.7782L18.3641 13.1924L13.0001 7.82843Z"
-          ></path>
-        </svg>
-      </div>
-    </button>
-
-    <script>
-      const container = document.getElementById("matrix-container");
-      const characters = "{}[]()<>/\=+*01;";
-      // const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@&%";
-      const colors = [
-        "#FF4500",
-        "#32CD32",
-        "#1E90FF",
-        "#FFD700",
-        "#8A2BE2",
-        "#FF1493",
-      ];
-
-      function createLetter() {
-        if (!container) return;
-
-        const span = document.createElement("span");
-        const char = characters[Math.floor(Math.random() * characters.length)];
-        const color = "var(--color-darkgray)";
-
-        const left = Math.random() * 100;
-        const duration = 6 + Math.random() * 6; // Duration between 6s and 12s
-        const size = 10 + Math.random() * 10;
-
-        span.innerText = char;
-        span.className = "falling-letter";
-        span.style.left = `${left}vw`;
-        span.style.color = color;
-        span.style.fontSize = `${size}px`;
-        span.style.animationDuration = `${duration}s`;
-        span.style.willChange = "transform, opacity";
-
-        // Apply a subtle glow effect
-        span.style.textShadow = `0 0 5px ${color}`;
-
-        container.appendChild(span);
-
-        setTimeout(() => {
-          span.remove();
-        }, duration * 1000);
-      }
-
-      if (window.innerWidth > 768) {
-        // Decrease frequency to enhance performance (one character every 400ms)
-        setInterval(createLetter, 400);
-      } else {
-        // Apply a static scatter effect for mobile optimization
-        const mobileCount = 20;
-        for (let i = 0; i < mobileCount; i++) {
-          createStaticLetter();
-        }
-      }
-
-      function createStaticLetter() {
-        if (!container) return;
-
-        const span = document.createElement("span");
-        const char = characters[Math.floor(Math.random() * characters.length)];
-        const color = "var(--color-darkgray)";
-
-        const left = Math.random() * 100;
-        const top = Math.random() * 90; // Assign a random vertical position
-        const size = 10 + Math.random() * 10;
-
-        span.innerText = char;
-        span.className = "falling-letter"; // Inherited from global.css
-
-        // Disable animation on mobile devices
-        span.style.animation = "none";
-        span.style.left = `${left}vw`;
-        span.style.top = `${top}vh`;
-        span.style.color = color;
-        span.style.fontSize = `${size}px`;
-        span.style.opacity = (0.1 + Math.random() * 0.3).toString();
-        span.style.textShadow = `0 0 5px ${color}`;
-
-        container.appendChild(span);
-      }
-
-      // --- SCROLL TO TOP LOGIC --- //
-      const toTopBtn = document.getElementById("to-top");
-      const progressCircle = document.getElementById("progress-circle");
-      const circumference = 150.796; // Circumference = 2 * Math.PI * radius (24)
-      const arrowIcon = toTopBtn?.querySelector(".absolute");
-
-      function handleScroll() {
-        const scrollHeight =
-          document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = window.scrollY / scrollHeight;
-
-        // Update the circular progress indicator
-        const offset = circumference - scrollPercentage * circumference;
-        if (progressCircle) {
-          progressCircle.style.strokeDashoffset = offset.toString();
-        }
-
-        // Visibility logic: Display the button after scrolling 50% of the page
-        if (scrollPercentage > 0.5) {
-          toTopBtn?.classList.remove("translate-y-20", "opacity-0");
-          toTopBtn?.classList.add("translate-y-0", "opacity-100");
-        } else {
-          toTopBtn?.classList.add("translate-y-20", "opacity-0");
-          toTopBtn?.classList.remove("translate-y-0", "opacity-100");
-        }
-
-        // Bounce animation logic: Trigger at 98% scroll depth
-        if (scrollPercentage > 0.98) {
-          arrowIcon?.classList.add("animate-bounce-twice");
-        } else {
-          arrowIcon?.classList.remove("animate-bounce-twice");
-        }
-      }
-
-      window.addEventListener("scroll", handleScroll, { passive: true });
-
-      toTopBtn?.addEventListener("click", () => {
-        arrowIcon?.classList.add("launching");
-
-        const startPosition = window.scrollY;
-        const duration = 750;
-        let startTime: number | null = null;
-        let requestID: number; // Store the animation request ID
-
-        const stopAnimation = () => {
-          cancelAnimationFrame(requestID);
-          arrowIcon?.classList.remove("launching");
-          // Remove event listeners once the animation concludes
-          window.removeEventListener("wheel", stopAnimation);
-          window.removeEventListener("touchmove", stopAnimation);
-        };
-
-        function easeOutQuad(t: number, b: number, c: number, d: number) {
-          t /= d;
-          return -c * t * (t - 2) + b;
-        }
-
-        function animation(currentTime: number) {
-          if (startTime === null) startTime = currentTime;
-          const timeElapsed = currentTime - startTime;
-          const run = easeOutQuad(
-            timeElapsed,
-            startPosition,
-            -startPosition,
-            duration,
-          );
-
-          window.scrollTo(0, run);
-
-          if (timeElapsed < duration) {
-            requestID = requestAnimationFrame(animation);
-          } else {
-            stopAnimation();
-          }
-        }
-
-        // Listen for user scroll interruptions to halt the animation
-        window.addEventListener("wheel", stopAnimation, { once: true });
-        window.addEventListener("touchmove", stopAnimation, { once: true });
-
-        requestID = requestAnimationFrame(animation);
-      });
-    </script>
+    <slot />
   </body>
 </html>
+
+<style define:vars={{ topColor, bottomColor }}>
+  .layout-custom {
+    background: linear-gradient(var(--topColor), var(--bottomColor));
+  }
+</style>
