@@ -1,4 +1,4 @@
-# Muhammad Bintang Nugraha — Developer Portfolio
+# Muhammad Bintang Nugraha
 
 <div align="center">
 
