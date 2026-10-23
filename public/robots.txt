@@ -1,0 +1,7 @@
+# robots.txt — https://bintangnugraha.my.id
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+Sitemap: https://bintangnugraha.my.id/sitemap-index.xml

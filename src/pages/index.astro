@@ -1,14 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Header from "@/components/Header.astro";
-import About from "@/components/About.astro";
-import Links from "@/components/Links.astro";
-import Footer from "@/components/Footer.astro";
+import Nav from "@/components/nav.astro";
+import Home from "@/components/home.astro";
+import Projects from "@/components/projects.astro";
+import Contact from "@/components/contact.astro";
+import Footer from "@/components/footer.astro";
 ---
 
-<Layout>
-	<Header />
-	<About />
-	<Links />
-	<Footer />
+<Layout title="Muhammad Bintang Nugraha">
+  <Nav />
+  <Home />
+  <Projects />
+  <Contact />
+  <Footer />
 </Layout>
