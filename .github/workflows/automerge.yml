@@ -20,8 +20,8 @@ jobs:
         # Merge only if 'patch' or 'minor' update
         if: steps.dependabot.outputs.update-type != 'version-update:semver-major'
         run: |
-          gh pr review --approve "$PR_URL"
-          gh pr merge --auto --squash "$PR_URL"
+          gh pr review --approve "$PR_URL" || echo "Review approval skipped (enable 'Allow GitHub Actions to create and approve pull requests' in repository settings if required)"
+          gh pr merge --auto --squash "$PR_URL" || echo "Auto-merge could not be enabled (ensure 'Allow auto-merge' is enabled in repository settings)"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

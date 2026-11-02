@@ -17,5 +17,6 @@ updates:
           - "@astrojs/*"
           - "tailwindcss"
     ignore:
-      - dependency-name: "tailwindcss"
+      # Ignore all major version bumps across all dependencies to prevent breaking builds
+      - dependency-name: "*"
         update-types: ["version-update:semver-major"]
