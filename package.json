@@ -2,7 +2,6 @@
   "name": "portfolio",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@11.2.2",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -12,19 +11,19 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/react": "^7.1.1",
+    "@astrojs/react": "^6.0.4",
     "@astrojs/tailwind": "^6.0.2",
     "@fontsource-variable/montserrat": "^5.3.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.3.2",
-    "firebase": "^13.1.0",
+    "firebase": "^12.19.0",
     "ogl": "^1.0.11",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "sharp": "^0.35.4",
-    "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2"
+    "tailwindcss": "^3.4.17",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@types/node": "^26.5.1",

@@ -15,3 +15,7 @@ updates:
           - "typescript"
           - "astro"
           - "@astrojs/*"
+          - "tailwindcss"
+    ignore:
+      - dependency-name: "tailwindcss"
+        update-types: ["version-update:semver-major"]
