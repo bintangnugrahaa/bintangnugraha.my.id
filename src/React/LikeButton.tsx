@@ -71,6 +71,7 @@ const LikeButton = () => {
       <button
         onClick={handleLike}
         disabled={isProcessing || isLiked}
+        aria-label={`Like website, currently ${likes} likes`}
         className={`
           group relative w-40 h-10 flex items-center justify-center p-3
           rounded-full transition-all duration-300 ease-in-out transform border-2 ${borderColorClass}

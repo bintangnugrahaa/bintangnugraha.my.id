@@ -1,0 +1,284 @@
+---
+interface Props {
+  glitchColors?: string[];
+  glitchSpeed?: number;
+  centerVignette?: boolean;
+  outerVignette?: boolean;
+  smooth?: boolean;
+}
+
+const {
+  glitchColors = ["#5e4491", "#A476FF", "#241a38"],
+  glitchSpeed = 60,
+  centerVignette = false,
+  outerVignette = true,
+  smooth = true,
+} = Astro.props;
+---
+
+<div
+  id="letter-glitch-container"
+  class="relative w-full h-full bg-[#101010] overflow-hidden"
+  data-colors={JSON.stringify(glitchColors)}
+  data-speed={glitchSpeed}
+  data-smooth={smooth ? "true" : "false"}
+>
+  <canvas id="letter-glitch-canvas" class="block w-full h-full"></canvas>
+  {
+    outerVignette && (
+      <div class="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(16,16,16,0)_60%,_rgba(16,16,16,1)_100%)]" />
+    )
+  }
+  {
+    centerVignette && (
+      <div class="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_60%)]" />
+    )
+  }
+</div>
+
+<script is:inline>
+  function initLetterGlitch() {
+    const container = document.getElementById("letter-glitch-container");
+    const canvas = document.getElementById("letter-glitch-canvas");
+    if (!container || !canvas) return;
+
+    const colorsAttr = container.dataset.colors;
+    const glitchColors = colorsAttr ? JSON.parse(colorsAttr) : ["#5e4491", "#A476FF", "#241a38"];
+    const glitchSpeed = parseInt(container.dataset.speed || "60", 10);
+    const smooth = container.dataset.smooth === "true";
+
+    const fontSize = 16;
+    const charWidth = 10;
+    const charHeight = 20;
+
+    const lettersAndSymbols = [
+      "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+      "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+      "!", "@", "#", "$", "&", "*", "(", ")", "-", "_", "+", "=", "/",
+      "[", "]", "{", "}", ";", ":", "<", ">", ",", "0", "1", "2", "3",
+      "4", "5", "6", "7", "8", "9",
+    ];
+
+    const hexToRgb = (hex) => {
+      let h = hex.replace(/^#/, "");
+      if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+      const num = parseInt(h, 16);
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    };
+
+    const rgbColors = glitchColors.map(hexToRgb);
+
+    const getRandomChar = () =>
+      lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+
+    const getRandomColor = () =>
+      rgbColors[Math.floor(Math.random() * rgbColors.length)];
+
+    let letters = [];
+    let grid = { columns: 0, rows: 0 };
+    const ctx = canvas.getContext("2d");
+    let lastGlitchTime = Date.now();
+    let animationId = null;
+    let isVisible = false;
+    let loopStarted = false;
+
+    const calculateGrid = (width, height) => {
+      const columns = Math.ceil(width / charWidth);
+      const rows = Math.ceil(height / charHeight);
+      return { columns, rows };
+    };
+
+    const initializeLetters = (columns, rows) => {
+      grid = { columns, rows };
+      const totalLetters = columns * rows;
+      letters = new Array(totalLetters);
+      for (let i = 0; i < totalLetters; i++) {
+        const c = getRandomColor();
+        const char = getRandomChar();
+        letters[i] = {
+          char,
+          currR: c.r,
+          currG: c.g,
+          currB: c.b,
+          startR: c.r,
+          startG: c.g,
+          startB: c.b,
+          targetR: c.r,
+          targetG: c.g,
+          targetB: c.b,
+          progress: 1,
+          colorStr: `rgb(${c.r},${c.g},${c.b})`,
+        };
+      }
+    };
+
+    const drawLetters = () => {
+      if (!ctx || letters.length === 0 || !canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      ctx.font = `${fontSize}px monospace`;
+      ctx.textBaseline = "top";
+
+      const cols = grid.columns;
+      for (let i = 0; i < letters.length; i++) {
+        const l = letters[i];
+        const x = (i % cols) * charWidth;
+        const y = Math.floor(i / cols) * charHeight;
+        ctx.fillStyle = l.colorStr;
+        ctx.fillText(l.char, x, y);
+      }
+    };
+
+    const updateLetters = () => {
+      if (letters.length === 0) return;
+      const updateCount = Math.max(1, Math.floor(letters.length * 0.05));
+
+      for (let i = 0; i < updateCount; i++) {
+        const index = Math.floor(Math.random() * letters.length);
+        const l = letters[index];
+        if (!l) continue;
+
+        l.char = getRandomChar();
+        const next = getRandomColor();
+        l.startR = l.currR;
+        l.startG = l.currG;
+        l.startB = l.currB;
+        l.targetR = next.r;
+        l.targetG = next.g;
+        l.targetB = next.b;
+
+        if (!smooth) {
+          l.currR = next.r;
+          l.currG = next.g;
+          l.currB = next.b;
+          l.colorStr = `rgb(${next.r},${next.g},${next.b})`;
+          l.progress = 1;
+        } else {
+          l.progress = 0;
+        }
+      }
+    };
+
+    const handleSmoothTransitions = () => {
+      let needsRedraw = false;
+      for (let i = 0; i < letters.length; i++) {
+        const l = letters[i];
+        if (l.progress < 1) {
+          l.progress = Math.min(1, l.progress + 0.08);
+          const p = l.progress;
+          l.currR = Math.round(l.startR + (l.targetR - l.startR) * p);
+          l.currG = Math.round(l.startG + (l.targetG - l.startG) * p);
+          l.currB = Math.round(l.startB + (l.targetB - l.startB) * p);
+          l.colorStr = `rgb(${l.currR},${l.currG},${l.currB})`;
+          needsRedraw = true;
+        }
+      }
+
+      if (needsRedraw) {
+        drawLetters();
+      }
+    };
+
+    const resizeCanvas = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+
+      const dpr = 1;
+      const rect = parent.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+
+      if (ctx) {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      const { columns, rows } = calculateGrid(rect.width, rect.height);
+      initializeLetters(columns, rows);
+      drawLetters();
+    };
+
+    const animate = () => {
+      if (!isVisible) {
+        animationId = null;
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastGlitchTime >= glitchSpeed) {
+        updateLetters();
+        drawLetters();
+        lastGlitchTime = now;
+      }
+
+      if (smooth) {
+        handleSmoothTransitions();
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    // Initial static render so canvas is instantly visible
+    resizeCanvas();
+
+    const startAnimation = () => {
+      loopStarted = true;
+      if (isVisible && !animationId) {
+        lastGlitchTime = Date.now();
+        animationId = requestAnimationFrame(animate);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const currentlyVisible = entry.isIntersecting && !document.hidden;
+        if (currentlyVisible && !isVisible) {
+          isVisible = true;
+          if (loopStarted && !animationId) {
+            lastGlitchTime = Date.now();
+            animationId = requestAnimationFrame(animate);
+          }
+        } else if (!currentlyVisible && isVisible) {
+          isVisible = false;
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(canvas);
+
+    // Delay continuous animation loop to allow browser initial paint & idle
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(() => setTimeout(startAnimation, 300));
+    } else {
+      setTimeout(startAnimation, 400);
+    }
+
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (animationId) cancelAnimationFrame(animationId);
+        resizeCanvas();
+        if (isVisible && loopStarted && !animationId) {
+          animationId = requestAnimationFrame(animate);
+        }
+      }, 100);
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initLetterGlitch, { once: true });
+  } else {
+    initLetterGlitch();
+  }
+</script>

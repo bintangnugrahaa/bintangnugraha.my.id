@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 
 const LetterGlitch = ({
   glitchColors = ["#5e4491", "#A476FF", "#241a38"],
-  glitchSpeed = 33,
+  glitchSpeed = 50,
   centerVignette = false,
   outerVignette = false,
   smooth = true,
@@ -32,64 +32,11 @@ const LetterGlitch = ({
   const charHeight = 20;
 
   const lettersAndSymbols = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "!",
-    "@",
-    "#",
-    "$",
-    "&",
-    "*",
-    "(",
-    ")",
-    "-",
-    "_",
-    "+",
-    "=",
-    "/",
-    "[",
-    "]",
-    "{",
-    "}",
-    ";",
-    ":",
-    "<",
-    ">",
-    ",",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+    "!", "@", "#", "$", "&", "*", "(", ")", "-", "_", "+", "=", "/",
+    "[", "]", "{", "}", ";", ":", "<", ">", ",", "0", "1", "2", "3",
+    "4", "5", "6", "7", "8", "9",
   ];
 
   const getRandomChar = () => {
@@ -154,7 +101,7 @@ const LetterGlitch = ({
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = 1;
     const rect = parent.getBoundingClientRect();
 
     canvas.width = rect.width * dpr;
@@ -173,9 +120,9 @@ const LetterGlitch = ({
   };
 
   const drawLetters = () => {
-    if (!context.current || letters.current.length === 0) return;
+    if (!context.current || letters.current.length === 0 || !canvasRef.current) return;
     const ctx = context.current;
-    const { width, height } = canvasRef.current!.getBoundingClientRect();
+    const { width, height } = canvasRef.current.getBoundingClientRect();
     ctx.clearRect(0, 0, width, height);
     ctx.font = `${fontSize}px monospace`;
     ctx.textBaseline = "top";
@@ -189,13 +136,13 @@ const LetterGlitch = ({
   };
 
   const updateLetters = () => {
-    if (!letters.current || letters.current.length === 0) return; // Prevent accessing empty array
+    if (!letters.current || letters.current.length === 0) return;
 
     const updateCount = Math.max(1, Math.floor(letters.current.length * 0.05));
 
     for (let i = 0; i < updateCount; i++) {
       const index = Math.floor(Math.random() * letters.current.length);
-      if (!letters.current[index]) continue; // Skip if index is invalid
+      if (!letters.current[index]) continue;
 
       letters.current[index].char = getRandomChar();
       letters.current[index].targetColor = getRandomColor();
@@ -213,7 +160,7 @@ const LetterGlitch = ({
     let needsRedraw = false;
     letters.current.forEach((letter) => {
       if (letter.colorProgress < 1) {
-        letter.colorProgress += 0.05;
+        letter.colorProgress += 0.08;
         if (letter.colorProgress > 1) letter.colorProgress = 1;
 
         const startRgb = hexToRgb(letter.color);
@@ -234,47 +181,78 @@ const LetterGlitch = ({
     }
   };
 
-  const animate = () => {
-    const now = Date.now();
-    if (now - lastGlitchTime.current >= glitchSpeed) {
-      updateLetters();
-      drawLetters();
-      lastGlitchTime.current = now;
-    }
-
-    if (smooth) {
-      handleSmoothTransitions();
-    }
-
-    animationRef.current = requestAnimationFrame(animate);
-  };
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     context.current = canvas.getContext("2d");
     resizeCanvas();
-    animate();
+
+    let isVisible = false;
+
+    const animate = () => {
+      if (!isVisible) {
+        animationRef.current = null;
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastGlitchTime.current >= glitchSpeed) {
+        updateLetters();
+        drawLetters();
+        lastGlitchTime.current = now;
+      }
+
+      if (smooth) {
+        handleSmoothTransitions();
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const currentlyVisible = entry.isIntersecting && !document.hidden;
+        if (currentlyVisible && !isVisible) {
+          isVisible = true;
+          lastGlitchTime.current = Date.now();
+          if (!animationRef.current) {
+            animationRef.current = requestAnimationFrame(animate);
+          }
+        } else if (!currentlyVisible && isVisible) {
+          isVisible = false;
+          if (animationRef.current) {
+            cancelAnimationFrame(animationRef.current);
+            animationRef.current = null;
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(canvas);
 
     let resizeTimeout: ReturnType<typeof setTimeout>;
-
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        cancelAnimationFrame(animationRef.current as number);
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
         resizeCanvas();
-        animate();
+        if (isVisible && !animationRef.current) {
+          animationRef.current = requestAnimationFrame(animate);
+        }
       }, 100);
     };
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      cancelAnimationFrame(animationRef.current!);
+      observer.disconnect();
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
       window.removeEventListener("resize", handleResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [glitchSpeed, smooth]);
 
   return (

@@ -1,0 +1,112 @@
+---
+const skills = [
+  {
+    category: "Web Development",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-app-window-mac text-[var(--sec)]"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01"/><path d="M10 8h.01"/><path d="M14 8h.01"/></svg>`,
+    items: [
+      "Single Page Applications (SPAs)",
+      "Landing pages and business websites",
+      "Portfolio websites",
+    ],
+  },
+  {
+    category: "Mobile Development",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tablet-smartphone text-[var(--sec)]"><rect width="10" height="14" x="3" y="8" rx="2"/><path d="M5 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-2.4"/><path d="M8 18h.01"/></svg>`,
+    items: [
+      "Mobile-friendly web apps",
+      "Flutter mobile apps",
+    ],
+  },
+];
+---
+
+<div class="text-left pt-3 md:pt-9">
+  <h2 class="text-[var(--white)] text-3xl md:text-4xl font-semibold md:mb-6">
+    What I do?
+  </h2>
+  <ul class="space-y-4 mt-4 text-lg">
+    {
+      skills.map(({ category, icon, items }) => (
+        <li class="w-full">
+          <div class="md:w-[400px] w-full bg-[#1414149c] rounded-2xl text-left border border-[var(--white-icon-tr)] overflow-hidden">
+            <button
+              type="button"
+              aria-expanded="false"
+              class="skill-accordion-btn w-full flex items-center gap-3 p-4 text-left hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--sec)] cursor-pointer"
+            >
+              <Fragment set:html={icon} />
+              <div class="flex items-center gap-2 flex-grow justify-between">
+                <div class="min-w-0 max-w-[200px] md:max-w-none overflow-hidden">
+                  <span class="block truncate text-[var(--white)] text-lg font-medium">
+                    {category}
+                  </span>
+                </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="chevron-icon w-6 h-6 text-[var(--white)] transform transition-transform duration-300 flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z" />
+                </svg>
+              </div>
+            </button>
+
+            <div class="skill-content transition-all duration-300 px-4 max-h-0 opacity-0 overflow-hidden">
+              <ul class="space-y-2 text-[var(--white-icon)] text-sm">
+                {items.map((item) => (
+                  <li class="flex items-center">
+                    <span class="pl-1 select-none" aria-hidden="true">•</span>
+                    <span class="pl-3">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script is:inline>
+  function setupSkillAccordions() {
+    const buttons = document.querySelectorAll(".skill-accordion-btn");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const isExpanded = btn.getAttribute("aria-expanded") === "true";
+        const content = btn.nextElementSibling;
+        const chevron = btn.querySelector(".chevron-icon");
+
+        // Close all buttons first
+        buttons.forEach((otherBtn) => {
+          otherBtn.setAttribute("aria-expanded", "false");
+          const otherContent = otherBtn.nextElementSibling;
+          const otherChevron = otherBtn.querySelector(".chevron-icon");
+          if (otherContent) {
+            otherContent.classList.remove("max-h-[500px]", "pb-4", "opacity-100");
+            otherContent.classList.add("max-h-0", "opacity-0", "overflow-hidden");
+          }
+          otherChevron?.classList.remove("rotate-180");
+        });
+
+        // If it was not expanded before, expand it now
+        if (!isExpanded) {
+          btn.setAttribute("aria-expanded", "true");
+          if (content) {
+            content.classList.remove("max-h-0", "opacity-0", "overflow-hidden");
+            content.classList.add("max-h-[500px]", "pb-4", "opacity-100");
+          }
+          chevron?.classList.add("rotate-180");
+        }
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupSkillAccordions, { once: true });
+  } else {
+    setupSkillAccordions();
+  }
+</script>

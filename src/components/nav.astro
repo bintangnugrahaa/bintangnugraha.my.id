@@ -27,6 +27,7 @@ const navItems: NavItem[] = [
 <div class="flex justify-center w-full">
   <nav
     id="main-nav"
+    aria-label="Main navigation"
     class="fixed left-1/2 -translate-x-1/2 z-[100] bg-[var(--background)] border border-1 border-transparent backdrop-blur-xl transition-all duration-500 ease-in-out md:top-6 md:bottom-auto bottom-0 w-[80%]"
   >
     <div class="container mx-auto flex justify-center items-center p-3">
@@ -44,8 +45,7 @@ const navItems: NavItem[] = [
                 <span class="md:hidden flex items-center justify-center w-6 h-6">
                   <fragment set:html={item.icon} />
                 </span>
-                <span class="hidden md:inline-block">{item.label}</span>
-                <span class="md:hidden">{item.label}</span>
+                <span class="inline-block">{item.label}</span>
               </a>
             </li>
           ))
@@ -101,10 +101,10 @@ const navItems: NavItem[] = [
   }
 </style>
 
-<script>
+<script is:inline>
   const nav = document.getElementById("main-nav");
   const maxScroll = 1000;
-  let rafId: number | null = null;
+  let rafId = null;
 
   function updateNav() {
     if (window.scrollY > 0) {
@@ -140,8 +140,8 @@ const navItems: NavItem[] = [
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
-      const target = e.currentTarget as HTMLAnchorElement;
-      const targetId = target.getAttribute("href")?.substring(1) || "";
+      const target = e.currentTarget;
+      const targetId = target?.getAttribute("href")?.substring(1) || "";
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
         targetElement.scrollIntoView({
@@ -151,12 +151,12 @@ const navItems: NavItem[] = [
     });
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function setupNavObserver() {
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll("nav a[href^='#']");
     const observerOptions = { threshold: 0.6 };
 
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    const observerCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navLinks.forEach((link) => link.classList.remove("active"));
@@ -174,7 +174,13 @@ const navItems: NavItem[] = [
       observerOptions
     );
     sections.forEach((section) => observer.observe(section));
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupNavObserver, { once: true });
+  } else {
+    setupNavObserver();
+  }
 </script>
 
 <style>
